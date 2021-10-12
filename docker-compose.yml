@@ -6,11 +6,11 @@ services:
     container_name: odoo_web
     image: odoo:latest
     depends_on:
-      - odoo_db
+      - db
     ports:
       - "8069:8069"
     environment:
-      - HOST=db
+      - HOST=odoo_db
       - USER=developer
       - PASSWORD=123456
     volumes:
@@ -20,11 +20,13 @@ services:
       - ./addons-customize:/mnt/extra-addons-customize
 
   db:
+    container_name: odoo_db
     image: postgres:latest
     environment:
       - POSTGRES_DB=lachua
       - POSTGRES_PASSWORD=123456
       - POSTGRES_USER=developer
+      - PGDATA=/var/lib/postgresql/data/pgdata
     ports:
       - "5432:5432"
     volumes:
